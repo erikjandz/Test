@@ -1,25 +1,27 @@
-#include <iostream>
+    #include <iostream>
 #include <string>
+#include <fstream>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 using namespace std;
 
 void new_file(){
-        string name;
-        string text;
-        string command = "sudo touch ";
-        string command2;
-        const char* command3;
-        const char* command4;
-        cout << "Wat wordt de naam van de file?" << endl;
-        cin >> name;
-        cout << "Wat wil je in de file zetten?" << endl;
-        getline(cin,text);
-        command += string(name);
-        command2 = string(text) + " >> " + string(name);
-        command3 = command.c_str();
-        command4 = command2.c_str();
-        system(command3);
-        system(command4);
+         cout << "Geef een bestandsnaam: ";
+        string naam;
+        mode_t mode = 0600;
+        getline(cin, naam);
+        naam = naam + ".txt";
+        creat(naam.c_str(), mode);
+        cout << "Geef inhoud voor de file: ";
+        string inhoud;
+        getline(cin, inhoud);
+        int lengte = inhoud.size();
+        int filedesc = open(naam.c_str(), O_RDWR);
+        write(filedesc, inhoud.c_str(), lengte);
+
 }
 
 void list(){
@@ -29,12 +31,10 @@ void list(){
 void find(){
         string invoer;
         string command;
-        const char* command2;
         cout << "geef een string" <<  endl;
         cin >> invoer;
         command = "find | grep "  + invoer;
-        command2 = command.c_str();
-        system(command2);
+        system(command.c_str());
 }
 
 void python(){
@@ -68,5 +68,6 @@ int main(){
 
         }
 }
-                
+                                                                                                                                                                                                                            1,17          Top
+     
                                                                                                                                                                                                                             37,2-8        Top
