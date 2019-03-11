@@ -1,15 +1,16 @@
-    #include <iostream>
-#include <string>
-#include <fstream>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include "shell.hh"
+#include <stdio.h>
+#include <sys/wait.h>
+#include <cstring>
 
 using namespace std;
 
 void new_file(){
-         cout << "Geef een bestandsnaam: ";
+        cout << "Geef een bestandsnaam: ";
         string naam;
         mode_t mode = 0600;
         getline(cin, naam);
@@ -25,20 +26,28 @@ void new_file(){
 }
 
 void list(){
-        system("ls -la");
+        int pid = fork();
+        if(pid==0){
+        char *args[]={"/bin/ls", "-la", NULL};
+        execvp(args[0], args);
+        exit(2);
+        }
+        else{wait(NULL);
+        }
 }
 
 void find(){
-        string invoer;
-        string command;
-        cout << "geef een string" <<  endl;
-        cin >> invoer;
-        command = "find | grep "  + invoer;
-        system(command.c_str());
+        cout <<"hi" << endl;
 }
 
 void python(){
-        system("python");
+        int pid = fork();
+        if(pid == 0){
+                char *args[]={"/usr/bin/python", NULL};
+                execvp(args[0], args);
+        }
+        else{wait(NULL);
+        }
 }
 
 
@@ -65,9 +74,7 @@ int main(){
                 if(input == "error"){
                         return 1;
                 }
-
         }
 }
-                                                                                                                                                                                                                            1,17          Top
-     
+
                                                                                                                                                                                                                             37,2-8        Top
